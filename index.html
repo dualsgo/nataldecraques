@@ -137,112 +137,116 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- Formulário -->
-        <div class="formulario">
-            <h1>⚽ Craques de Natal</h1>
-            <form id="formulario">
-                <label for="numloja">Número da loja:</label>
-                <input type="text" id="numloja" placeholder="Ex.: 1300" required>
+<div class="container">
+    <!-- Formulário -->
+    <div class="formulario">
+        <h1>⚽ Craques de Natal</h1>
+        <p>Preencha os dados abaixo para gerar o relatório.</p>
+        <form id="formulario">
+            <label for="numloja">Número da loja:</label>
+            <input type="text" id="numloja" placeholder="Use 4 dígitos Ex.: 1300" required>
 
-                <label for="horario">Horário:</label>
-                <select id="horario">
-                    <option value="16h">16h</option>
-                    <option value="18h">18h</option>
-                    <option value="20h">20h</option>
-                    <option value="21h">21h</option>
-                </select>
+            <label for="horario">Horário:</label>
+            <select id="horario">
+                <option value="16h">16h</option>
+                <option value="18h">18h</option>
+                <option value="20h">20h</option>
+                <option value="21h">21h</option>
+            </select>
 
-                <label for="atingimento">Atingimento (%):</label>
-                <input type="number" id="atingimento" step="0.1" min="0" max="100" placeholder="Ex.: 95.5">
+            <label for="atingimento">Atingimento (%):</label>
+            <input type="number" id="atingimento" step="0.1" min="0" max="1000" placeholder="Use ponto para separar Ex.: 95.5">
 
-                <label for="tkm">TKM (R$):</label>
-                <input type="number" id="tkm" step="0.01" placeholder="Ex.: 150.50">
+            <label for="tkm">TKM (R$):</label>
+            <input type="number" id="tkm" step="0.01" placeholder="Somente números Ex.: 150.50">
 
-                <label for="pix">% de cupons com PIX:</label>
-                <input type="number" id="pix" step="0.01" min="0" max="100" placeholder="Ex.: 25.5">
+            <label for="pix">% de cupons com PIX:</label>
+            <input type="number" id="pix" step="0.01" min="0" max="100" placeholder="Somente números Ex.: 25.5">
 
-                <label for="cuponstotais">Total de cupons:</label>
-                <input type="number" id="cuponstotais">
+            <label for="cuponstotais">Total de cupons:</label>
+            <input type="number" id="cuponstotais">
 
-                <label for="cuponsslp">Cupons com SLP:</label>
-                <input type="number" id="cuponsslp">
+            <label for="cuponsslp">Cupons com SLP:</label>
+            <input type="number" id="cuponsslp">
 
-                <label for="pilhas">Quantidade de pilhas:</label>
-                <input type="number" id="pilhas">
+            <label for="pilhas">Quantidade de pilhas:</label>
+            <input type="number" id="pilhas">
 
-                <label for="sacolasbaralhos">Sacolas/Baralhos:</label>
-                <input type="number" id="sacolasbaralhos">
+            <label for="sacolasbaralhos">Sacolas/Baralhos:</label>
+            <input type="number" id="sacolasbaralhos">
 
-                <button type="button" onclick="gerarRelatorio()">Gerar Relatório</button>
-            </form>
-        </div>
-
-        <!-- Resultado -->
-        <div class="resultado">
-            <h2>Relatório</h2>
-            <pre id="resultado">Preencha os dados à esquerda e clique em "Gerar Relatório".</pre>
-        </div>
+            <button type="button" onclick="gerarRelatorio()">Gerar Relatório</button>
+        </form>
     </div>
 
-    <script>
-        function gerarRelatorio() {
-            const lojas = {
-                "9014": "RIO DESIGN",
-                "1304": "PARK JACAREPAGUÁ",
-                "1301": "IPANEMA",
-                "1300": "ECO VILLA",
-                "1239": "SHOPPING RECREIO",
-                "1232": "BARRA SHOPPING",
-                "1224": "TOP SHOPPING",
-                "1187": "CARIOCA SHOPPING",
-                "1169": "NOVA IGUAÇU",
-                "1141": "AMÉRICA SHOPPING",
-                "1106": "SHOPPING METROPOLITANO BARRA",
-                "1101": "PARTEGE SÃO GONÇALO",
-                "1078": "ILHA PLAZA",
-                "1074": "NITERÓI PLAZA SHOP.",
-                "1072": "GRANDE RIO",
-                "1058": "VIA PARQUE",
-                "1057": "IGUATEMI RJ",
-                "1052": "BANGU",
-                "1033": "NORTESHOPPING",
-                "1030": "NOVA AMÉRICA"
-            };
+    <!-- Resultado -->
+    <div class="resultado">
+        <h2>Relatório</h2>
+        <pre id="resultado">Preencha os dados à esquerda e clique em "Gerar Relatório".</pre>
+        <button id="copiar" style="display: none;" onclick="copiarTexto()">Copiar Relatório</button>
+        <p id="confirmacao" style="display: none; color: green; font-weight: bold; margin-top: 10px;">Mensagem copiada!
+            Agora é só colar a mensagem no WhatsApp.</p>
+    </div>
+</div>
 
-            try {
-                // Captura de dados
-                const numloja = document.getElementById('numloja').value.trim();
-                if (!lojas[numloja]) throw new Error("Número da loja inválido.");
+<script>
+    function gerarRelatorio() {
+        const lojas = {
+            "9014": "RIO DESIGN",
+            "1304": "PARK JACAREPAGUÁ",
+            "1301": "IPANEMA",
+            "1300": "ECO VILLA",
+            "1239": "SHOPPING RECREIO",
+            "1232": "BARRA SHOPPING",
+            "1224": "TOP SHOPPING",
+            "1187": "CARIOCA SHOPPING",
+            "1169": "NOVA IGUAÇU",
+            "1141": "AMÉRICA SHOPPING",
+            "1106": "SHOPPING METROPOLITANO BARRA",
+            "1101": "PARTEGE SÃO GONÇALO",
+            "1078": "ILHA PLAZA",
+            "1074": "NITERÓI PLAZA SHOP.",
+            "1072": "GRANDE RIO",
+            "1058": "VIA PARQUE",
+            "1057": "IGUATEMI RJ",
+            "1052": "BANGU",
+            "1033": "NORTESHOPPING",
+            "1030": "NOVA AMÉRICA"
+        };
 
-                const horario = document.getElementById('horario').value;
-                const atingimento = parseFloat(document.getElementById('atingimento').value);
-                if (isNaN(atingimento) || atingimento < 0 || atingimento > 100) throw new Error("Atingimento inválido.");
+        try {
+            // Captura de dados
+            const numloja = document.getElementById('numloja').value.trim();
+            if (!lojas[numloja]) throw new Error("Número da loja inválido.");
 
-                const tkm = parseFloat(document.getElementById('tkm').value);
-                if (isNaN(tkm)) throw new Error("TKM inválido.");
+            const horario = document.getElementById('horario').value;
+            const atingimento = parseFloat(document.getElementById('atingimento').value);
+            if (isNaN(atingimento) || atingimento < 0 || atingimento > 100) throw new Error("Atingimento inválido.");
 
-                const pix = parseFloat(document.getElementById('pix').value);
-                if (isNaN(pix) || pix < 0 || pix > 100) throw new Error("Porcentagem de cupons com PIX inválida.");
+            const tkm = parseFloat(document.getElementById('tkm').value);
+            if (isNaN(tkm)) throw new Error("TKM inválido.");
 
-                const cuponstotais = parseInt(document.getElementById('cuponstotais').value);
-                if (isNaN(cuponstotais) || cuponstotais < 0) throw new Error("Total de cupons inválido.");
+            const pix = parseFloat(document.getElementById('pix').value);
+            if (isNaN(pix) || pix < 0 || pix > 100) throw new Error("Porcentagem de cupons com PIX inválida.");
 
-                const cuponsslp = parseInt(document.getElementById('cuponsslp').value);
-                if (isNaN(cuponsslp) || cuponsslp < 0) throw new Error("Quantidade de cupons com SLP inválida.");
+            const cuponstotais = parseInt(document.getElementById('cuponstotais').value);
+            if (isNaN(cuponstotais) || cuponstotais < 0) throw new Error("Total de cupons inválido.");
 
-                const pilhas = parseInt(document.getElementById('pilhas').value);
-                if (isNaN(pilhas) || pilhas < 0) throw new Error("Quantidade de pilhas inválida.");
+            const cuponsslp = parseInt(document.getElementById('cuponsslp').value);
+            if (isNaN(cuponsslp) || cuponsslp < 0) throw new Error("Quantidade de cupons com SLP inválida.");
 
-                const sacolasbaralhos = parseInt(document.getElementById('sacolasbaralhos').value);
-                if (isNaN(sacolasbaralhos) || sacolasbaralhos < 0) throw new Error("Quantidade de sacolas/baralhos inválida.");
+            const pilhas = parseInt(document.getElementById('pilhas').value);
+            if (isNaN(pilhas) || pilhas < 0) throw new Error("Quantidade de pilhas inválida.");
 
-                // Cálculo de participação
-                const participacao = cuponstotais > 0 ? ((cuponsslp / cuponstotais) * 100).toFixed(2) : "0.00";
+            const sacolasbaralhos = parseInt(document.getElementById('sacolasbaralhos').value);
+            if (isNaN(sacolasbaralhos) || sacolasbaralhos < 0) throw new Error("Quantidade de sacolas/baralhos inválida.");
 
-                // Gerar relatório
-                const nomeLoja = lojas[numloja];
-                const relatorio = `
+            // Cálculo de participação
+            const participacao = cuponstotais > 0 ? ((cuponsslp / cuponstotais) * 100).toFixed(2) : "0.00";
+
+            // Gerar relatório
+            const nomeLoja = lojas[numloja];
+            const relatorio = `
 ⚽ CRAQUES DE NATAL
 Parciais dos combinados
 
@@ -256,14 +260,29 @@ Parciais dos combinados
 🎩 % de cupons com SLP: ${participacao}%
 🔋 Qntd. de pilhas vendidas: ${pilhas}
 🃏 Qntd. de baralhos/sacolas vendidos: ${sacolasbaralhos}
-                `;
+            `;
 
-                document.getElementById('resultado').textContent = relatorio;
-            } catch (erro) {
-                document.getElementById('resultado').textContent = `Erro: ${erro.message}`;
-            }
+            document.getElementById('resultado').textContent = relatorio;
+
+            // Exibir botão de copiar e resetar mensagem de confirmação
+            document.getElementById('copiar').style.display = "inline-block";
+            document.getElementById('confirmacao').style.display = "none";
+        } catch (erro) {
+            document.getElementById('resultado').textContent = `Erro: ${erro.message}`;
         }
-    </script>
+    }
+
+    function copiarTexto() {
+        const resultado = document.getElementById('resultado').textContent;
+        navigator.clipboard.writeText(resultado).then(() => {
+            // Exibir mensagem de confirmação
+            document.getElementById('confirmacao').style.display = "block";
+        }).catch(err => {
+            alert("Falha ao copiar: " + err);
+        });
+    }
+</script>
+
 </body>
 
 </html>
