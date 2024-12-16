@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craques de Natal</title>
+<style>
+    /* Estilo global */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        width: 90%;
+        max-width: 1200px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .formulario,
+    .resultado {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .formulario {
+        border-right: 2px solid #e9ecef;
+    }
+
+    .resultado {
+        background-color: #f8f9fa;
+    }
+
+    h1,
+    h2 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #495057;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    pre {
+        background: #e9ecef;
+        padding: 15px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        color: #495057;
+        overflow-x: auto;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .formulario {
+            border-right: none;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        h1,
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        input,
+        select,
+        button {
+            font-size: 0.9rem;
+        }
+
+        pre {
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding: 10px;
+        }
+
+        h1,
+        h2 {
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 8px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- Formulário -->
+        <div class="formulario">
+            <h1>⚽ Craques de Natal</h1>
+            <form id="formulario">
+                <label for="numloja">Número da loja:</label>
+                <input type="text" id="numloja" placeholder="Ex.: 1300" required>
+
+                <label for="horario">Horário:</label>
+                <select id="horario">
+                    <option value="16h">16h</option>
+                    <option value="18h">18h</option>
+                    <option value="20h">20h</option>
+                    <option value="21h">21h</option>
+                </select>
+
+                <label for="atingimento">Atingimento (%):</label>
+                <input type="number" id="atingimento" step="0.1" min="0" max="100" placeholder="Ex.: 95.5">
+
+                <label for="tkm">TKM (R$):</label>
+                <input type="number" id="tkm" step="0.01" placeholder="Ex.: 150.50">
+
+                <label for="pix">% de cupons com PIX:</label>
+                <input type="number" id="pix" step="0.01" min="0" max="100" placeholder="Ex.: 25.5">
+
+                <label for="cuponstotais">Total de cupons:</label>
+                <input type="number" id="cuponstotais">
+
+                <label for="cuponsslp">Cupons com SLP:</label>
+                <input type="number" id="cuponsslp">
+
+                <label for="pilhas">Quantidade de pilhas:</label>
+                <input type="number" id="pilhas">
+
+                <label for="sacolasbaralhos">Sacolas/Baralhos:</label>
+                <input type="number" id="sacolasbaralhos">
+
+                <button type="button" onclick="gerarRelatorio()">Gerar Relatório</button>
+            </form>
+        </div>
+
+        <!-- Resultado -->
+        <div class="resultado">
+            <h2>Relatório</h2>
+            <pre id="resultado">Preencha os dados à esquerda e clique em "Gerar Relatório".</pre>
+        </div>
+    </div>
+
+    <script>
+        function gerarRelatorio() {
+            const lojas = {
+                "9014": "RIO DESIGN",
+                "1304": "PARK JACAREPAGUÁ",
+                "1301": "IPANEMA",
+                "1300": "ECO VILLA",
+                "1239": "SHOPPING RECREIO",
+                "1232": "BARRA SHOPPING",
+                "1224": "TOP SHOPPING",
+                "1187": "CARIOCA SHOPPING",
+                "1169": "NOVA IGUAÇU",
+                "1141": "AMÉRICA SHOPPING",
+                "1106": "SHOPPING METROPOLITANO BARRA",
+                "1101": "PARTEGE SÃO GONÇALO",
+                "1078": "ILHA PLAZA",
+                "1074": "NITERÓI PLAZA SHOP.",
+                "1072": "GRANDE RIO",
+                "1058": "VIA PARQUE",
+                "1057": "IGUATEMI RJ",
+                "1052": "BANGU",
+                "1033": "NORTESHOPPING",
+                "1030": "NOVA AMÉRICA"
+            };
+
+            try {
+                // Captura de dados
+                const numloja = document.getElementById('numloja').value.trim();
+                if (!lojas[numloja]) throw new Error("Número da loja inválido.");
+
+                const horario = document.getElementById('horario').value;
+                const atingimento = parseFloat(document.getElementById('atingimento').value);
+                if (isNaN(atingimento) || atingimento < 0 || atingimento > 100) throw new Error("Atingimento inválido.");
+
+                const tkm = parseFloat(document.getElementById('tkm').value);
+                if (isNaN(tkm)) throw new Error("TKM inválido.");
+
+                const pix = parseFloat(document.getElementById('pix').value);
+                if (isNaN(pix) || pix < 0 || pix > 100) throw new Error("Porcentagem de cupons com PIX inválida.");
+
+                const cuponstotais = parseInt(document.getElementById('cuponstotais').value);
+                if (isNaN(cuponstotais) || cuponstotais < 0) throw new Error("Total de cupons inválido.");
+
+                const cuponsslp = parseInt(document.getElementById('cuponsslp').value);
+                if (isNaN(cuponsslp) || cuponsslp < 0) throw new Error("Quantidade de cupons com SLP inválida.");
+
+                const pilhas = parseInt(document.getElementById('pilhas').value);
+                if (isNaN(pilhas) || pilhas < 0) throw new Error("Quantidade de pilhas inválida.");
+
+                const sacolasbaralhos = parseInt(document.getElementById('sacolasbaralhos').value);
+                if (isNaN(sacolasbaralhos) || sacolasbaralhos < 0) throw new Error("Quantidade de sacolas/baralhos inválida.");
+
+                // Cálculo de participação
+                const participacao = cuponstotais > 0 ? ((cuponsslp / cuponstotais) * 100).toFixed(2) : "0.00";
+
+                // Gerar relatório
+                const nomeLoja = lojas[numloja];
+                const relatorio = `
+⚽ CRAQUES DE NATAL
+Parciais dos combinados
+
+🏪 Loja: ${numloja} - ${nomeLoja}
+⏰ Parcial: ${horario}
+
+🎯 Atg. de vendas: ${atingimento.toFixed(1)}%
+💰 TKM: R$ ${tkm.toFixed(2)}
+
+💲 % de cupons com PIX: ${pix.toFixed(2)}%
+🎩 % de cupons com SLP: ${participacao}%
+🔋 Qntd. de pilhas vendidas: ${pilhas}
+🃏 Qntd. de baralhos/sacolas vendidos: ${sacolasbaralhos}
+                `;
+
+                document.getElementById('resultado').textContent = relatorio;
+            } catch (erro) {
+                document.getElementById('resultado').textContent = `Erro: ${erro.message}`;
+            }
+        }
+    </script>
+</body>
+
+</html>
